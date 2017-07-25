@@ -1,0 +1,988 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="设计模式,工厂模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="工厂模式是创建型模型，提供了一种创建对象的方式，工厂模式又分为简单工厂，工厂方法和抽象工厂 简单工厂简单工厂模式，又称静态工厂方法，通过一个工厂类，根据不同的参数创建其他类的实例，屏蔽了每个类的创建细节，只暴露出工厂的创建方法，假如现在要实现一个简单计算器实现两个数的加减乘除 抽象出运算类123456public abstract class Operation &amp;#123;    public">
+<meta name="keywords" content="设计模式,工厂模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【设计模式】简单工厂、工厂方法和抽象工厂">
+<meta property="og:url" content="https://fanwc.github.io/2017/07/25/factory/index.html">
+<meta property="og:site_name" content="留白的小屋">
+<meta property="og:description" content="工厂模式是创建型模型，提供了一种创建对象的方式，工厂模式又分为简单工厂，工厂方法和抽象工厂 简单工厂简单工厂模式，又称静态工厂方法，通过一个工厂类，根据不同的参数创建其他类的实例，屏蔽了每个类的创建细节，只暴露出工厂的创建方法，假如现在要实现一个简单计算器实现两个数的加减乘除 抽象出运算类123456public abstract class Operation &amp;#123;    public">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/40843436B3FD42388423F9F81F3708D7/2852">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/C4989953F229428BA12D0CB05ADCB64D/2894">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/DD13040EAADA4E489053793F65EEFAA4/2949">
+<meta property="og:updated_time" content="2017-07-25T15:05:20.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【设计模式】简单工厂、工厂方法和抽象工厂">
+<meta name="twitter:description" content="工厂模式是创建型模型，提供了一种创建对象的方式，工厂模式又分为简单工厂，工厂方法和抽象工厂 简单工厂简单工厂模式，又称静态工厂方法，通过一个工厂类，根据不同的参数创建其他类的实例，屏蔽了每个类的创建细节，只暴露出工厂的创建方法，假如现在要实现一个简单计算器实现两个数的加减乘除 抽象出运算类123456public abstract class Operation &amp;#123;    public">
+<meta name="twitter:image" content="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/40843436B3FD42388423F9F81F3708D7/2852">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://fanwc.github.io/2017/07/25/factory/"/>
+
+
+
+
+
+  <title>【设计模式】简单工厂、工厂方法和抽象工厂 | 留白的小屋</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">留白的小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不要逃避，不要侥幸，不要埋怨</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            有料
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://fanwc.github.io/2017/07/25/factory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="留白">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar_gintama.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="留白的小屋">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【设计模式】简单工厂、工厂方法和抽象工厂</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-25T23:02:45+08:00">
+                2017-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/工厂模式/" itemprop="url" rel="index">
+                    <span itemprop="name">工厂模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/07/25/factory/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/07/25/factory/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2017/07/25/factory/" class="leancloud_visitors" data-flag-title="【设计模式】简单工厂、工厂方法和抽象工厂">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工厂模式是创建型模型，提供了一种创建对象的方式，工厂模式又分为<strong>简单工厂</strong>，<strong>工厂方法</strong>和<strong>抽象工厂</strong></p>
+<h2 id="简单工厂"><a href="#简单工厂" class="headerlink" title="简单工厂"></a>简单工厂</h2><p>简单工厂模式，又称静态工厂方法，通过一个工厂类，根据不同的参数创建其他类的实例，<br>屏蔽了每个类的创建细节，只暴露出工厂的创建方法，假如现在要实现一个简单计算器<br>实现两个数的加减乘除</p>
+<p>抽象出运算类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public abstract class Operation &#123;</div><div class="line">    public double  numberA;</div><div class="line"></div><div class="line">    public  double  numberB;</div><div class="line">    abstract double getResult();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>加、减、乘类分别继承运算类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class OperationAdd extends Operation &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    double getResult() &#123;</div><div class="line">        return numberA + numberB;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class OperationSub extends Operation &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    double getResult() &#123;</div><div class="line">        return numberA - numberB;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class OperationMul extends Operation &#123;</div><div class="line">    @Override</div><div class="line">    double getResult() &#123;</div><div class="line">        return numberA*numberB;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>工厂类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class OperationFactory &#123;</div><div class="line">    public static Operation createOperation(String opt)&#123;</div><div class="line">        Operation operation = null;</div><div class="line">        switch (opt)&#123;</div><div class="line">            case &quot;+&quot; :</div><div class="line">                return new OperationAdd();</div><div class="line">            case &quot;-&quot;:</div><div class="line">                return new OperationSub();</div><div class="line">            case &quot;*&quot;:</div><div class="line">                return new OperationMul();</div><div class="line">            default:</div><div class="line">                return null;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>客户端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class TestFactory &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        Scanner sc = new Scanner(System.in);</div><div class="line">        System.out.print(&quot;a:&quot;);</div><div class="line">        double a = sc.nextDouble();</div><div class="line">        System.out.print(&quot;operation:&quot;);</div><div class="line">        String opt = sc.next();</div><div class="line">        System.out.print(&quot;b:&quot;);</div><div class="line">        double b = sc.nextDouble();</div><div class="line">        Operation operation = OperationFactory.createOperation(opt);</div><div class="line">        operation.numberA = a;</div><div class="line">        operation.numberB = b;</div><div class="line">        System.out.println(operation.getResult());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在客户端，当我们想要计算两个数相加的时候，只需要输入<code>+</code>号，工厂类就会自动的帮我们实例化一个加法的运算类，而不需要自己去想着如何实例化一个加法类，如果需求要求我们给计算器增加除法运算的时候，只需要新增一个除法类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public class OperationDiv extends Operation &#123;</div><div class="line">    @Override</div><div class="line">    double getResult() &#123;</div><div class="line">        return numberA/numberB;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>同时在工厂类<code>createOperation</code>的switch分支增加除法的创建就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class OperationFactory &#123;</div><div class="line">    public static Operation createOperation(String opt)&#123;</div><div class="line">        Operation operation = null;</div><div class="line">        switch (opt)&#123;</div><div class="line">            case &quot;+&quot; :</div><div class="line">                return new OperationAdd();</div><div class="line">            case &quot;-&quot;:</div><div class="line">                return new OperationSub();</div><div class="line">            case &quot;*&quot;:</div><div class="line">                return new OperationMul();</div><div class="line">            case &quot;/&quot;:</div><div class="line">                return new OperationDiv();</div><div class="line">            default:</div><div class="line">                return null;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>简单工厂实现计算器的类图</p>
+<p><img src="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/40843436B3FD42388423F9F81F3708D7/2852" alt="简单工厂"></p>
+<h2 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h2><blockquote>
+<p><strong>简单工厂模式的优点是工厂中包含了必要的逻辑判断根据客户端的选择条件动态的实例化相关的类，对于客户端来说，去除了与具体的产品的依赖</strong> </p>
+</blockquote>
+<p>比如上边所说的计算器，客户端不去管该实例化哪个类，它只要输入相对应的运算符号，工厂类自动的实例化出对应的运算类，当需要新增一种运算时，之前也说了，需要新增一种运算类，并修改工厂里的switch分支，这违背了<strong>开放-封闭原则</strong>，于是工厂方法 </p>
+<p><strong>开放-封闭原则</strong>  </p>
+<blockquote>
+<p>软件实体(类，模块，函数等)应该是可以扩展的，但是不可以修改</p>
+</blockquote>
+<p>工厂方法类图</p>
+<p><img src="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/C4989953F229428BA12D0CB05ADCB64D/2894" alt="image"></p>
+<p>先构建一个工厂的接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public interface IFactory &#123;</div><div class="line">    Operation createOperation();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>加减乘除各建一个具体的工厂去实现接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public class AddFactory implements IFactory &#123;</div><div class="line">    @Override</div><div class="line">    public Operation createOperation() &#123;</div><div class="line">        return new OperationAdd();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class SubFactory implements IFactory &#123;</div><div class="line">    @Override</div><div class="line">    public Operation createOperation() &#123;</div><div class="line">        return new OperationSub();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class MulFactory implements IFactory &#123;</div><div class="line">    @Override</div><div class="line">    public Operation createOperation() &#123;</div><div class="line">        return new OperationMul();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class DivFactory implements IFactory &#123;</div><div class="line">    @Override</div><div class="line">    public Operation createOperation() &#123;</div><div class="line">        return new OperationDiv();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class TestFactory &#123;</div><div class="line">    public static void main(String[] args)&#123;</div><div class="line">        IFactory operFactory = new AddFactory();</div><div class="line">        Operation operation = operFactory.createOperation();</div><div class="line">        operation.numberA = 2;</div><div class="line">        operation.numberB = 3;</div><div class="line">        System.out.println(operation.getResult());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样当我们要增加一种运算时，只需要增加一种运算类和对应的工厂，而不必去修改原来的方法和类，就是所谓的对修改封闭，对扩展开放，工厂方法在对象的替换上更方便，不需要做大的改动，只需要换掉工厂就可以了，因为客户端并不知道他持有的具体是哪一个产品的实例，是由对应的工厂决定的</p>
+<h2 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h2><blockquote>
+<p>抽象工厂模式，提供了一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类。</p>
+</blockquote>
+<p>有这样一个场景，某个产品使用的是sqlserver数据库，数据库中有两张表，用户表user和部门表department，分别可以插入数据和查询数据，现在由于使用者用的是Access数据库，由于Access数据库的语法和sqlserver有很大的出入，原来的数据库操作代码不能使用，这个时候我们可能会一条一条的去改数据库操作语句，但是用抽象工厂就可以很方便的解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class User &#123;</div><div class="line">    private int id;</div><div class="line">    private String name;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class Department &#123;</div><div class="line">    int id;</div><div class="line">    int name;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>抽象出IUser和IDepartment接口，与数据库操作解耦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public interface IUser &#123;</div><div class="line">    void insert(User user);</div><div class="line">    User getUser(int id);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public interface IDepartment &#123;</div><div class="line">    void insert(Department department);</div><div class="line">    IDepartment getDepartment(int id);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>每种数据库自己的数据库操作，实现对应的数据库操作接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">public class SqlserverUser implements IUser &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void insert(User user) &#123;</div><div class="line">        System.out.println(&quot;sql server 中 user 表插入了一条记录&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public User getUser(int id) &#123;</div><div class="line">        System.out.println(&quot;sql server 中获取了 user 表的一条记录&quot;);</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class SqlserverDepartment implements IDepartment &#123;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void insert(Department department) &#123;</div><div class="line">        System.out.println(&quot;sql server 中 Department 表插入了一条记录&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public IDepartment getDepartment(int id) &#123;</div><div class="line">        System.out.println(&quot;sql server 中获取了 Department 表的一条记录&quot;);</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public class AccessUser implements IUser &#123;</div><div class="line">    @Override</div><div class="line">    public void insert(User user) &#123;</div><div class="line">        System.out.println(&quot;Access 中 user 表插入了一条记录&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public User getUser(int id) &#123;</div><div class="line">        System.out.println(&quot;Access 中获取了 user 表的一条记录&quot;);</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class AccessDepartment implements IDepartment &#123;</div><div class="line">    @Override</div><div class="line">    public void insert(Department department) &#123;</div><div class="line">        System.out.println(&quot;Access 中 Department 表插入了一条记录&quot;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public IDepartment getDepartment(int id) &#123;</div><div class="line">        System.out.println(&quot;Access 中获取了 Department 表的一条记录&quot;);</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>具体数据库操作的抽象工厂<code>IFactory</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface IFactory &#123;</div><div class="line">    IUser createUser();</div><div class="line">    IDepartment createDepartment();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>SqlserverFactory类实现IFactory接口，实例化SqlserverUser和SqlserverDepartment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class SqlserverFactory implements IFactory &#123;</div><div class="line">    @Override</div><div class="line">    public IUser createUser() &#123;</div><div class="line">        return new SqlserverUser();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public IDepartment createDepartment() &#123;</div><div class="line">        return new SqlserverDepartment();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>AccessFactory类实现IFactory接口，实例化AccessUser和AccessDepartment</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class AccessFactory implements IFactory &#123;</div><div class="line">    @Override</div><div class="line">    public IUser createUser() &#123;</div><div class="line">        return new AccessUser();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public IDepartment createDepartment() &#123;</div><div class="line">        return new AccessDepartment();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>客户端代码，当切换数据库的时候只需要更改相应的数据库工厂就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class TestAbsFactory &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">//        IFactory factory = new AccessFactory();</div><div class="line">        IFactory factory = new SqlserverFactory();</div><div class="line">        IUser iUser =  factory.createUser();</div><div class="line">        IDepartment iDepartment = factory.createDepartment();</div><div class="line"></div><div class="line">        iUser.insert(new User());</div><div class="line">        iUser.getUser(1);</div><div class="line"></div><div class="line">        iDepartment.insert(new Department());</div><div class="line">        iDepartment.getDepartment(1);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://note.youdao.com/yws/public/resource/ce00b8e6bdec3807d4c11cc10af2cf17/xmlnote/DD13040EAADA4E489053793F65EEFAA4/2949" alt="image"></p>
+<p>当有多个抽象的产品时使用抽象的工厂模式，如图中有两个抽象产品AbstractProductA和AbstractProductB，对应例子中的IUser和IDepartment,这两种抽象产品有着完全不同的产品实现，比如IUser有AccessUser和SqlserverUser两种不同的实现，AbstractFactoty是一个抽象的工厂，包含了所有产品创建的抽象方法，ConcreteFactory1和ConcreteFactory2具体的工厂就是SqlserverFactory和AccessFactory了，这样client使用不同的具体工厂，就可以创建出不同的产品对象啦</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/工厂模式/" rel="tag"># 工厂模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/04/todo-mvp/" rel="next" title="todo-mvp学习">
+                <i class="fa fa-chevron-left"></i> todo-mvp学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar_gintama.jpg"
+               alt="留白" />
+          <p class="site-author-name" itemprop="name">留白</p>
+           
+              <p class="site-description motion-element" itemprop="description">Android程序猿(。-`ω´-)</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单工厂"><span class="nav-number">1.</span> <span class="nav-text">简单工厂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂方法"><span class="nav-number">2.</span> <span class="nav-text">工厂方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂"><span class="nav-number">3.</span> <span class="nav-text">抽象工厂</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">留白</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cyt5cK7cb';
+      var conf = '07fa12d3a7b0fb1549e74fdf644b9804';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("84dU9rtRa21QlOiXE8h4JHoa-gzGzoHsz", "xT1UdozYvmmXDlIYWnftcWTD");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
